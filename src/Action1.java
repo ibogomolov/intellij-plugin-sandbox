@@ -1,4 +1,5 @@
 import com.intellij.codeInsight.actions.SimpleCodeInsightAction;
+import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -10,9 +11,30 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Adds function body after function call.
+ *
  * Created by ibogomolov on 09.04.14.
  */
-public class Action1 extends SimpleCodeInsightAction {
+public class Action1 extends SimpleCodeInsightAction implements IntentionAction {
+    @NotNull
+    @Override
+    public String getText() {
+        return "Expand function";
+    }
+
+    @NotNull
+    @Override
+    public String getFamilyName() {
+        return getText();
+    }
+
+    @Override
+    public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+        final int offset = editor.getCaretModel().getOffset();
+        final PsiElement element = file.findElementAt(offset);
+        return PsiTreeUtil.getParentOfType(element, PsiCall.class) != null;
+    }
+
     @Override
     public void invoke(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         final int offset = editor.getCaretModel().getOffset();

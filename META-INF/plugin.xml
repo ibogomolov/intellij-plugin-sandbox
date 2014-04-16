@@ -26,6 +26,13 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
+      <intentionAction>
+          <className>Action1</className>
+          <category>Category</category>
+          <descriptionDirectoryName>Function expansion</descriptionDirectoryName>
+      </intentionAction>
+
+      <lang.foldingBuilder language="JAVA" implementationClass="Action2"/>
   </extensions>
 
   <application-components>
